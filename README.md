@@ -30,20 +30,5 @@ To run this application, follow these steps:
 ## Technologies Used
 
 * React
-* Other technologies used in this app (e.g. Redux, React Router, etc.)
 
-## Contributing
 
-If you'd like to contribute to this project, please:
-
-1. Fork the repository
-2. Make changes and commit them
-3. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-If you have any questions or need help, feel free to reach out to me at [your-email@example.com](mailto:your-email@example.com)
