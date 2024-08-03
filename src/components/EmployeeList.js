@@ -69,23 +69,23 @@ const EmployeeList = () => {
         </div>
       </nav>
       <div className="card-container">
-        {employees.map((employee) => (
-          <div key={employee._id} className="card">
-            <h2>{employee.name}</h2>
-            <p>Employee ID: {employee._id}</p>
-            <Link to={`/${employee._id}`}>
-              <button className="view-button">View Details</button>
-            </Link>
-            <button className="delete-button" onClick={() => handleDeleteEmployee(employee._id)}>Delete</button>
-            
-          </div>
-          
-        ))}
-        
+        {employees.length === 0 ? (
+          <p className="no-employees-message">No employees in the system</p>
+        ) : (
+          employees.map((employee) => (
+            <div key={employee._id} className="card">
+              <h2>{employee.name}</h2>
+              <p>Employee ID: {employee._id}</p>
+              <Link to={`/${employee._id}`}>
+                <button className="view-button">View Details</button>
+              </Link>
+              <button className="delete-button" onClick={() => handleDeleteEmployee(employee._id)}>Delete</button>
+            </div>
+          ))
+        )}
       </div>
       <ToastContainer />
     </div>
-      
   );
 };
 
