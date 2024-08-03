@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './AddEmployee.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddEmployee = () => {
   const [name, setName] = useState('');
@@ -19,8 +21,20 @@ const AddEmployee = () => {
       value: '',
     },
   ]);
+  const [isEmployeeCreated, setIsEmployeeCreated] = useState(false);
 
-  const handleCreateEmployee = () => {
+  const notify = () => toast("Employee Created");
+
+  useEffect(() => {
+    if (isEmployeeCreated) {
+      notify();
+      setIsEmployeeCreated(false);
+    }
+  }, [isEmployeeCreated]);
+
+  const handleCreateEmployee = (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+
     const employeeData = {
       name,
       address: {
@@ -43,14 +57,16 @@ const AddEmployee = () => {
       body: JSON.stringify(employeeData),
     })
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then(() => {
+        setIsEmployeeCreated(true);
+      })
       .catch((error) => console.error(error));
   };
 
   return (
     <div className="add-employee-container">
       <h1>Add Employee</h1>
-      <form className="add-employee-form">
+      <form className="add-employee-form" onSubmit={handleCreateEmployee}>
         <label>
           Name:
           <input
@@ -129,9 +145,10 @@ const AddEmployee = () => {
             </div>
           ))}
         </label>
-        <button onClick={handleCreateEmployee} className="form-button">
+        <button type="submit" className="form-button">
           Create Employee
         </button>
+        <ToastContainer />
       </form>
     </div>
   );

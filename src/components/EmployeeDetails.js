@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import './EmployeeDetail.css';
 
 const EmployeeDetail = () => {
   const { id } = useParams();
@@ -26,16 +27,16 @@ const EmployeeDetail = () => {
       });
   }, [id]);
 
-  if (!employee) return <p>Loading...</p>;
+  if (!employee) return <p className="loading">Loading...</p>;
 
   return (
-    <div>
-      <h1>{employee.name} </h1>
-      <p>Address: {employee.address.line1}, {employee.address.city}, {employee.address.country}, {employee.address.zipCode}</p>
-      <h3>Contact Methods:</h3>
-      <ul>
+    <div className="employee-detail-container">
+      <h1 className="employee-name">{employee.name}</h1>
+      <p className="employee-address">Address: {employee.address.line1}, {employee.address.city}, {employee.address.country}, {employee.address.zipCode}</p>
+      <h3 className="contact-methods-heading">Contact Methods:</h3>
+      <ul className="contact-methods-list">
         {employee.contactMethods.map((contact, index) => (
-          <li key={index}>{contact.contactMethod}: {contact.value}</li>
+          <li key={index} className="contact-method">{contact.contactMethod}: {contact.value}</li>
         ))}
       </ul>
     </div>
