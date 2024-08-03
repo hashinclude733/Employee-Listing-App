@@ -55,7 +55,7 @@ const EmployeeList = () => {
         console.log('No additional request config information available.');
       });
   };
-  
+
   return (
     <div>
       <nav className="nav-bar">
@@ -72,9 +72,9 @@ const EmployeeList = () => {
             <h2>{employee.name}</h2>
             <p>Employee ID: {employee._id}</p>
             <Link to={`/${employee._id}`}>
-              <button>View Details</button>
+              <button className="view-button">View Details</button>
             </Link>
-            <button onClick={() => handleDeleteEmployee(employee._id)}>Delete</button>
+            <button className="delete-button" onClick={() => handleDeleteEmployee(employee._id)}>Delete</button>
           </div>
         ))}
       </div>
