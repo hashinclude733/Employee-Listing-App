@@ -22,7 +22,7 @@ const EmployeeList = () => {
           setEmployees(data.data);
         } else {
           console.error('API returned non-array data:', data);
-          setEmployees([]); // Set a default value
+          setEmployees([]); 
         }
       });
   }, []);
@@ -35,13 +35,13 @@ const EmployeeList = () => {
         headers: {
           'projectId': '66ab3f666397d3eb039cacc2',
           'environmentId': '66ab3f666397d3eb039cacc3',
-          'Content-Type': 'application/json' // Optional: Ensures the body is treated as JSON
+          'Content-Type': 'application/json' 
         },
-        body: JSON.stringify({}) // Adding an empty body
+        body: JSON.stringify({}) 
       })
         .then((response) => {
           console.log('Response status:', response.status);
-          // Since Fetch doesn't automatically parse JSON, you need to do it manually if needed
+         
           return response.json().then(data => {
             console.log('Response data:', data);
             if (response.ok) {
@@ -54,7 +54,7 @@ const EmployeeList = () => {
         })
         .catch((error) => {
           console.error('Error deleting employee:', error);
-          // Since Fetch doesn't provide error.config, the code will not reach this block for Fetch
+          
           console.log('No additional request config information available.');
         });
     }
