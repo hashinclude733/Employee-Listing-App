@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './EmployeeList.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
@@ -44,6 +45,7 @@ const EmployeeList = () => {
           console.log('Response data:', data);
           if (response.ok) {
             setEmployees(employees.filter((employee) => employee._id !== id));
+            toast.success('Employee deleted successfully!');
           } else {
             throw new Error('Failed to delete employee');
           }
@@ -75,10 +77,15 @@ const EmployeeList = () => {
               <button className="view-button">View Details</button>
             </Link>
             <button className="delete-button" onClick={() => handleDeleteEmployee(employee._id)}>Delete</button>
+            
           </div>
+          
         ))}
+        
       </div>
+      <ToastContainer />
     </div>
+      
   );
 };
 
