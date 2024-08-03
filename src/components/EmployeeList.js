@@ -28,34 +28,36 @@ const EmployeeList = () => {
   }, []);
 
   const handleDeleteEmployee = (id) => {
-    console.log('Deleting employee with ID:', id);
-    fetch(`https://free-ap-south-1.cosmocloud.io/development/api/employee/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'projectId': '66ab3f666397d3eb039cacc2',
-        'environmentId': '66ab3f666397d3eb039cacc3',
-        'Content-Type': 'application/json' // Optional: Ensures the body is treated as JSON
-      },
-      body: JSON.stringify({}) // Adding an empty body
-    })
-      .then((response) => {
-        console.log('Response status:', response.status);
-        // Since Fetch doesn't automatically parse JSON, you need to do it manually if needed
-        return response.json().then(data => {
-          console.log('Response data:', data);
-          if (response.ok) {
-            setEmployees(employees.filter((employee) => employee._id !== id));
-            toast.success('Employee deleted successfully!');
-          } else {
-            throw new Error('Failed to delete employee');
-          }
-        });
+    if (window.confirm('Are you sure you want to delete this employee?')) {
+      console.log('Deleting employee with ID:', id);
+      fetch(`https://free-ap-south-1.cosmocloud.io/development/api/employee/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'projectId': '66ab3f666397d3eb039cacc2',
+          'environmentId': '66ab3f666397d3eb039cacc3',
+          'Content-Type': 'application/json' // Optional: Ensures the body is treated as JSON
+        },
+        body: JSON.stringify({}) // Adding an empty body
       })
-      .catch((error) => {
-        console.error('Error deleting employee:', error);
-        // Since Fetch doesn't provide error.config, the code will not reach this block for Fetch
-        console.log('No additional request config information available.');
-      });
+        .then((response) => {
+          console.log('Response status:', response.status);
+          // Since Fetch doesn't automatically parse JSON, you need to do it manually if needed
+          return response.json().then(data => {
+            console.log('Response data:', data);
+            if (response.ok) {
+              setEmployees(employees.filter((employee) => employee._id !== id));
+              toast.success('Employee deleted successfully!');
+            } else {
+              throw new Error('Failed to delete employee');
+            }
+          });
+        })
+        .catch((error) => {
+          console.error('Error deleting employee:', error);
+          // Since Fetch doesn't provide error.config, the code will not reach this block for Fetch
+          console.log('No additional request config information available.');
+        });
+    }
   };
 
   return (
@@ -90,3 +92,4 @@ const EmployeeList = () => {
 };
 
 export default EmployeeList;
+
