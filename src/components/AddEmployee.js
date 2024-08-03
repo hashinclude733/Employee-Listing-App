@@ -11,39 +11,51 @@ const AddEmployee = () => {
     country: '',
     zipCode: '',
   });
-  const [contactMethods, setContactMethods] = useState([
-    {
-      contactMethod: 'email',
-      value: '',
-    },
-    {
-      contactMethod: 'phone',
-      value: '',
-    },
-  ]);
+  const [contactMethods, setContactMethods] = useState({
+    email: '',
+    phone: '',
+  });
   const [isEmployeeCreated, setIsEmployeeCreated] = useState(false);
 
-  const notify = () => toast("Employee Created");
+  const notifySuccess = () => toast.success("Employee Created");
+  const notifyError = (message) => toast.error(message);
 
   useEffect(() => {
     if (isEmployeeCreated) {
-      notify();
+      notifySuccess();
       setIsEmployeeCreated(false);
     }
   }, [isEmployeeCreated]);
 
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validatePhone = (phone) => /^\d{10}$/.test(phone);
+
   const handleCreateEmployee = (e) => {
     e.preventDefault(); // Prevent default form submission behavior
 
+    // Validation
+    if (!name || !address.line1 || !address.city || !address.country || !address.zipCode || !contactMethods.email || !contactMethods.phone) {
+      notifyError('Please fill in all fields');
+      return;
+    }
+
+    if (!validateEmail(contactMethods.email)) {
+      notifyError('Invalid email address');
+      return;
+    }
+
+    if (!validatePhone(contactMethods.phone)) {
+      notifyError('Invalid Phone Number');
+      return;
+    }
+
     const employeeData = {
       name,
-      address: {
-        line1: address.line1,
-        city: address.city,
-        country: address.country,
-        zipCode: address.zipCode,
-      },
-      contactMethods,
+      address,
+      contactMethods: [
+        { contactMethod: 'email', value: contactMethods.email },
+        { contactMethod: 'phone', value: contactMethods.phone },
+      ],
     };
     console.log('Employee Data:', employeeData);
 
@@ -113,37 +125,22 @@ const AddEmployee = () => {
           />
         </label>
         <label>
-          Contact Methods:
-          {contactMethods.map((contactMethod, index) => (
-            <div key={index} className="contact-method">
-              <select
-                value={contactMethod.contactMethod}
-                onChange={(e) =>
-                  setContactMethods(
-                    contactMethods.map((cm, i) =>
-                      i === index ? { ...cm, contactMethod: e.target.value } : cm
-                    )
-                  )
-                }
-                className="form-select"
-              >
-                <option value="email">Email</option>
-                <option value="phone">Phone</option>
-              </select>
-              <input
-                type="text"
-                value={contactMethod.value}
-                onChange={(e) =>
-                  setContactMethods(
-                    contactMethods.map((cm, i) =>
-                      i === index ? { ...cm, value: e.target.value } : cm
-                    )
-                  )
-                }
-                className="form-input"
-              />
-            </div>
-          ))}
+          Email:
+          <input
+            type="text"
+            value={contactMethods.email}
+            onChange={(e) => setContactMethods({ ...contactMethods, email: e.target.value })}
+            className="form-input"
+          />
+        </label>
+        <label>
+          Phone:
+          <input
+            type="text"
+            value={contactMethods.phone}
+            onChange={(e) => setContactMethods({ ...contactMethods, phone: e.target.value })}
+            className="form-input"
+          />
         </label>
         <button type="submit" className="form-button">
           Create Employee
@@ -155,3 +152,5 @@ const AddEmployee = () => {
 };
 
 export default AddEmployee;
+
+
